@@ -26,7 +26,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<b>Publications</b>
+						<b>journals</b>
 						<span class="">
 
 							<button class="btn btn-primary btn-block btn-sm col-sm-2 float-right" type="button" id="new_forum">

@@ -2,67 +2,89 @@
 include 'admin/db_connect.php'; 
 ?>
 <style>
-#portfolio .img-fluid{/8
+<style>
+#portfolio .img-fluid {
     width: calc(100%);
     height: 30vh;
     z-index: -1;
     position: relative;
     padding: 1em;
 }
-.gallery-list{
-cursor: pointer;
-border: unset;
-flex-direction: inherit;
+.gallery-list {
+    cursor: pointer;
+    border: unset;
+    flex-direction: inherit;
 }
 
-.gallery-img img{
+.gallery-img img {
     border-radius: 5px;
     min-height: 50vh;
     max-width: calc(100%);
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Add transition */
 }
-span.hightlight{
+
+span.highlight {
     background: yellow;
 }
-.carousel,.carousel-inner,.carousel-item{
-   min-height: calc(100%)
+
+.carousel, .carousel-inner, .carousel-item {
+    min-height: calc(100%);
 }
-header.masthead,header.masthead:before {
-        min-height: 50vh !important;
-        height: 50vh !important
-    }
-.row-items{
+
+header.masthead, header.masthead:before {
+    min-height: 50vh !important;
+    height: 50vh !important;
+}
+
+.row-items {
     position: relative;
 }
-.card-left{
-    left:0;
+
+.card-left {
+    left: 0;
 }
-.card-right{
-    right:0;
+
+.card-right {
+    right: 0;
 }
-.rtl{
-    direction: rtl ;
+
+.rtl {
+    direction: rtl;
 }
-.gallery-text{
+
+.gallery-text {
     justify-content: center;
-    align-items: center ;
+    align-items: center;
 }
-.masthead{
-        min-height: 23vh !important;
-        height: 23vh !important;
-    }
-     .masthead:before{
-        min-height: 23vh !important;
-        height: 23vh !important;
-    }
-    /* new code for image alignment */
+
+.masthead {
+    min-height: 23vh !important;
+    height: 23vh !important;
+}
+
+.masthead:before {
+    min-height: 23vh !important;
+    height: 23vh !important;
+}
+
+/* New code for image alignment */
 .carousel-item > img {
-  position: static;
-  top: 50%;
-  left: 50%;
-  min-width: 50%;
-  height: 40rem;
-  margin: 0 auto;
+    position: static;
+    top: 50%;
+    left: 50%;
+    min-width: 50%;
+    height: 40rem;
+    margin: 0 auto;
 }
+
+/* Hover effect for gallery and carousel images */
+.gallery-img img:hover, 
+.carousel-item img:hover {
+    opacity: 0.8; /* Change opacity on hover */
+    transform: scale(1.05); /* Slightly scale up the image */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+}
+</style>
 
 
 </style>
@@ -70,14 +92,11 @@ header.masthead,header.masthead:before {
             <div class="container-fluid h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
                     <div class="col-lg-8 align-self-end mb-4 page-title">
-                        <h3 class="text-white">Gallery</h3>
+                    <h1 class="text-uppercase text-white font-weight-bold">GALLERY</h1>
                         <hr class="divider my-4" />
-
                     <div class="col-md-12 mb-2 justify-content-center">
                     </div>                        
-                    </div>
-
-                    
+                    </div>                   
                 </div>
             </div>
         </header>
@@ -102,50 +121,48 @@ header.masthead,header.masthead:before {
             </div>
             </div>-->
             <div class="container-fluid mt-3 pt-2">
-               
-                <div class="row-items">
-                <div class="col-lg-12">
-                    <div class="row">
+    <div class="row-items">
+        <div class="col-lg-12">
+            <div class="row">
                 <?php
-                $rtl ='rtl';
-                $ci= 0;
+                $rtl = 'rtl';
+                $ci = 0;
                 $img = array();
                 $fpath = 'admin/assets/uploads/gallery';
-                $files= is_dir($fpath) ? scandir($fpath) : array();
-                foreach($files as $val){
-                    if(!in_array($val, array('.','..'))){
-                        $n = explode('_',$val);
+                $files = is_dir($fpath) ? scandir($fpath) : array();
+                foreach ($files as $val) {
+                    if (!in_array($val, array('.', '..'))) {
+                        $n = explode('_', $val);
                         $img[$n[0]] = $val;
                     }
                 }
                 $gallery = $conn->query("SELECT * from gallery order by id desc");
-                while($row = $gallery->fetch_assoc()):
-                   
+                while ($row = $gallery->fetch_assoc()):
                     $ci++;
-                    if($ci < 3){
+                    if ($ci < 3) {
                         $rtl = '';
-                    }else{
+                    } else {
                         $rtl = 'rtl';
                     }
-                    if($ci == 4){
+                    if ($ci == 4) {
                         $ci = 0;
                     }
                 ?>
-                <div class="col-md-6">
-                <div class="card gallery-list <?php echo $rtl ?>" data-id="<?php echo $row['id'] ?>">
-                        <div class="gallery-img" card-img-top>
-
-                            <img src="<?php echo isset($img[$row['id']]) && is_file($fpath.'/'.$img[$row['id']]) ? $fpath.'/'.$img[$row['id']] :'' ?>" alt="">
+                <div class="col-md-4 mb-3"> <!-- Adjust column size here -->
+                    <div class="card gallery-list <?php echo $rtl ?>" data-id="<?php echo $row['id'] ?>">
+                        <div class="gallery-img">
+                            <img src="<?php echo isset($img[$row['id']]) && is_file($fpath . '/' . $img[$row['id']]) ? $fpath . '/' . $img[$row['id']] : '' ?>" alt="" class="img-fluid"> <!-- Added img-fluid class for responsive images -->
                         </div>
-                    
-                </div>
-                <br>
+                    </div>
                 </div>
                 <?php endwhile; ?>
+            </div>
+        </div>
+    </div>
                 </div>
-                </div>
-                </div>
-<!--corousal code starts here -->
+                <br>
+                <br><br>
+<<!--corousal code starts here -->
     <div>
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
@@ -158,20 +175,20 @@ header.masthead,header.masthead:before {
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block w-75" src="./admin/assets/uploads/gallery/2_img.jpg"   alt="First slide">
+      <img class="d-block w-75" src="./admin/assets/uploads/gallery/11_img.jpg"   alt="First slide">
     </div>
     <div class="carousel-item">
       <img class="d-block w-75" src="./admin/assets/uploads/gallery/38_img.jpg" alt="Second slide">
     </div>
     
     <div class="carousel-item">
-      <img class="d-block w-75" src="./admin/assets/uploads/gallery/16_img.jpg" alt="Third slide">
+      <img class="d-block w-75" src="./admin/assets/uploads/gallery/12_img.jpg" alt="Third slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-75" src="./admin/assets/uploads/gallery/15_img.jpg" alt="Third slide">
     </div>
     <div class="carousel-item">
       <img class="d-block w-75" src="./admin/assets/uploads/gallery/17_img.jpg" alt="Third slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-75" src="./admin/assets/uploads/gallery/13_img.jpg" alt="Third slide">
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -186,6 +203,9 @@ header.masthead,header.masthead:before {
 <!--corousal code ends here -->
                 </div>
             </div>
+            <br>
+            <br>
+             <br>
 
 
 <script>

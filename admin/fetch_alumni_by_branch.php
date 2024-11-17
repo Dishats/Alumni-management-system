@@ -1,7 +1,6 @@
 <?php
 include 'db_connect.php';
 
-// Query to fetch alumni counts by courses/branches
 $query = "SELECT c.course, COUNT(*) as count 
           FROM alumnus_bio ab
           JOIN courses c ON ab.course_id = c.id
@@ -9,18 +8,10 @@ $query = "SELECT c.course, COUNT(*) as count
           GROUP BY c.course";
 $result = $conn->query($query);
 
-// Prepare the output
-$output = "<ul class='list-group'>";
+$data = [];
 while ($row = $result->fetch_assoc()) {
-    $output .= "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-    $output .= $row['course']; // Display course/branch name
-    $output .= "<span class='badge badge-primary badge-pill'>" . $row['count'] . "</span>";
-    $output .= "</li>";
+    $data[] = ['course' => $row['course'], 'count' => $row['count']];
 }
-$output .= "</ul>";
 
-// Return the output
-echo $output;
+echo json_encode($data);
 ?>
-
-

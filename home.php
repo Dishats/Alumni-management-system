@@ -98,7 +98,7 @@ span.hightlight{
 
 /* Container styles */
 .scrolling-text-container {
-    background-color: #eff5ff;
+    background-color: #FEF9F2;
     border-radius: 4px;
     overflow: hidden;
 }
@@ -155,6 +155,7 @@ span.hightlight{
 
         <header class="masthead">
             <!--this is scrolling divv-->
+            <br>
                                                   <div class="scrolling-text-container">
     <div class="scrolling-text-inner" style="--marquee-speed: 10s; --direction:scroll-left" role="marquee">
         <div class="scrolling-text">
@@ -187,7 +188,7 @@ span.hightlight{
 
         </header>
       <div class="container mt-3 pt-2">
-                <h4 class="text-center text-white">Upcoming Events</h4>
+                <h4 class="text-center text-#048">Upcoming Events</h4>
                 <hr class="divider">
                 <?php
                 $event = $conn->query("SELECT * FROM events where date_format(schedule,'%Y-%m%-d') >= '".date('Y-m-d')."' order by unix_timestamp(schedule) asc");

@@ -69,13 +69,13 @@
 
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-outline-primary view_alumni" type="button" data-id="<?php echo $row['id'] ?>" >View</button>
+										
 										<!-- <button class="btn btn-sm btn-outline-danger delete_alumni" type="button" data-id="<?php echo $row['id'] ?>">Delete</button> -->
-										<td class="text-center">
-										<td class="text-center">
+										
+										
     <button class="btn btn-sm btn-outline-primary view_alumni" type="button" data-id="<?php echo $row['id'] ?>">View</button>
     <button class="btn btn-sm btn-outline-success send_mail" type="button" data-id="<?php echo $row['id'] ?>" data-email="<?php echo $row['email'] ?>">Send Mail</button>
-</td>
+
 
 
 									</td>

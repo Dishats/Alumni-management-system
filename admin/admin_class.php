@@ -405,25 +405,38 @@ Class Action {
 
 	}
 
-	public function save_notice() {
-		// Assume you have a database connection setup
-		$title = $_POST['title']; // Assuming title is sent via POST
-		$content = $_POST['content']; // Assuming content is sent via POST
-	
-		// Validate inputs
-		if (empty($title) || empty($content)) {
-			return false; // or return a specific error message
-		}
-	
-		// Prepare your SQL query
-		$stmt = $this->conn->prepare("INSERT INTO notices (title, content) VALUES (?, ?)");
-		$stmt->bind_param("ss", $title, $content);
-	
-		if ($stmt->execute()) {
-			return $stmt->insert_id; // Return the ID of the inserted record
-		} else {
-			return false; // or return a specific error message
-		}
-	}
+	function save_notice() {
+        extract($_POST);
+        $data = " title = '".htmlentities(str_replace("'", "&#x2019;", $title))."' ";
+        $data .= ", content = '".htmlentities(str_replace("'", "&#x2019;", $content))."' ";
+        $data .= ", created_at = NOW() ";
+
+        if (empty($id)) {
+            $save = $this->db->query("INSERT INTO notices SET " . $data);
+        } else {
+            $save = $this->db->query("UPDATE notices SET " . $data . " WHERE id = $id");
+        }
+
+        if ($save) {
+            return 1; // Success
+        }
+    }
+
+    function delete_notice() {
+        extract($_POST);
+        $delete = $this->db->query("DELETE FROM notices WHERE id = " . $id);
+        if ($delete) {
+            return 1; // Success
+        }
+    }
+
+    function get_notices() {
+        $notices = [];
+        $query = $this->db->query("SELECT * FROM notices ORDER BY created_at DESC");
+        while ($row = $query->fetch_assoc()) {
+            $notices[] = $row;
+        }
+        return json_encode($notices); // Return notices as JSON
+    }
 
 }
